@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>开源环状布局</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="panel-container">
+      <div class="panel-big">
+        <div class="panel-center"></div>
+      </div>
+    </div>
+    <script>
+      function initRingLayout(dis = 150, number = 8, elWidth = "100px", elHeight = "100px") {
+        let panelBig = document.getElementsByClassName("panel-big")[0];
+        // 各个圆心到中心圆的距离
+        let distance = dis;
+        // 平均切分角度
+        let degree = 360 / number;
+        //获取大圆半径
+        let bigR = panelBig.offsetWidth / 2;
+        // 大圆的边框也需要进行偏移调整
+        let pre = window.getComputedStyle(panelBig).borderWidth;
+        for (let i = 0; i < number; i++) {
+          let el = document.createElement("div");
+          el.className = "panel-part";
+          el.style.width = elWidth;
+          el.style.height = elHeight;
+          el.style.left = bigR - distance * Math.sin((degree * i * Math.PI) / 180) - parseFloat(pre) + "px";
+          el.style.top = bigR - distance * Math.cos((degree * i * Math.PI) / 180) - parseFloat(pre) + "px";
+
+          el.style.transform = "translate(-50%,-50%)";
+
+          panelBig.appendChild(el);
+        }
+      }
+      initRingLayout();
+    </script>
+  </body>
+</html>
